@@ -5,6 +5,7 @@
     --number-bg: #333333;
     --btn-bg: #4CAF50;
     --btn-hover: #45a049;
+    --accent-color: #2196F3;
 }
 
 body.light-mode {
@@ -41,7 +42,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .theme-btn {
@@ -61,15 +62,55 @@ body {
     transform: translateY(-2px);
 }
 
-.theme-btn:active {
-    transform: translateY(0);
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
 }
 
-h1 {
-    font-size: 3rem;
+.section-divider {
+    border: none;
+    border-top: 1px solid var(--number-bg);
+    margin: 3rem 0;
+}
+
+/* Animal Test Section */
+.animal-test-section {
     margin-bottom: 2rem;
 }
 
+#webcam-container {
+    margin: 2rem auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    background-color: var(--number-bg);
+}
+
+#webcam-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+#label-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.result-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background-color: var(--number-bg);
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Lotto Section */
 .numbers-container {
     display: flex;
     justify-content: center;
@@ -90,40 +131,29 @@ h1 {
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
-#generate-btn {
+.submit-btn {
     background-color: var(--btn-bg);
     color: white;
     padding: 1rem 2rem;
     border: none;
-    border-radius: 5px;
-    font-size: 1.2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
+    margin-bottom: 1rem;
 }
 
-#generate-btn:hover {
+.submit-btn:hover {
     background-color: var(--btn-hover);
 }
 
-#generate-btn:active {
+.submit-btn:active {
     transform: scale(0.98);
 }
 
 /* Contact Form Styles */
 .contact-section {
     margin-top: 3rem;
-    padding-top: 1rem;
-}
-
-.contact-section hr {
-    border: none;
-    border-top: 1px solid var(--number-bg);
-    margin-bottom: 2rem;
-}
-
-.contact-section h3 {
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
 }
 
 .contact-form {
@@ -149,7 +179,7 @@ h1 {
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--btn-bg);
+    border-color: var(--accent-color);
 }
 
 .form-group textarea {
@@ -157,29 +187,8 @@ h1 {
     resize: none;
 }
 
-.submit-btn {
-    background-color: var(--btn-bg);
-    color: white;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: opacity 0.3s;
-}
-
-.submit-btn:hover {
-    opacity: 0.9;
-}
-
 /* Comments Section Styles */
 .comments-section {
     margin-top: 3rem;
     text-align: left;
-}
-
-.comments-section hr {
-    border: none;
-    border-top: 1px solid var(--number-bg);
-    margin-bottom: 2rem;
 }

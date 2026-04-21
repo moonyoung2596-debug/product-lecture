@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>Lotto & Animal Face Test</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -12,16 +14,29 @@
             <button id="black-mode" class="theme-btn">Black Mode</button>
             <button id="light-mode" class="theme-btn">Light Mode</button>
         </div>
-        <h1>Lotto Number Generator</h1>
-        <div class="numbers-container">
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
+
+        <div class="animal-test-section">
+            <h1>Animal Face Test</h1>
+            <p>당신은 강아지상일까요, 고양이상일까요?</p>
+            <button type="button" id="start-test-btn" class="submit-btn">테스트 시작하기</button>
+            <div id="webcam-container"></div>
+            <div id="label-container"></div>
         </div>
-        <button id="generate-btn">Generate Numbers</button>
+
+        <hr class="section-divider">
+
+        <div class="lotto-section">
+            <h1>Lotto Number Generator</h1>
+            <div class="numbers-container">
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number"></div>
+            </div>
+            <button id="generate-btn" class="submit-btn">Generate Numbers</button>
+        </div>
 
         <div class="contact-section">
             <hr>
