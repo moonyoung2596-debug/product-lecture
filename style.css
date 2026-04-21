@@ -20,9 +20,10 @@ body {
     font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
     margin: 0;
+    padding: 2rem 0;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -32,6 +33,8 @@ body {
     border-radius: 15px;
     background-color: var(--container-bg);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
 }
 
 .theme-controls {
@@ -167,4 +170,16 @@ h1 {
 
 .submit-btn:hover {
     opacity: 0.9;
+}
+
+/* Comments Section Styles */
+.comments-section {
+    margin-top: 3rem;
+    text-align: left;
+}
+
+.comments-section hr {
+    border: none;
+    border-top: 1px solid var(--number-bg);
+    margin-bottom: 2rem;
 }
