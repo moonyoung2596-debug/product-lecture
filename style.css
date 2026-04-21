@@ -34,20 +34,32 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.theme-toggle {
-    background: none;
-    border: 1px solid var(--text-color);
-    color: var(--text-color);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    transition: all 0.3s;
+.theme-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-.theme-toggle:hover {
+.theme-btn {
+    background: none;
+    border: 1.5px solid var(--text-color);
+    color: var(--text-color);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-btn:hover {
     background-color: var(--text-color);
     color: var(--bg-color);
+    transform: translateY(-2px);
+}
+
+.theme-btn:active {
+    transform: translateY(0);
 }
 
 h1 {

@@ -1,22 +1,24 @@
 const generateBtn = document.getElementById('generate-btn');
-const themeToggle = document.getElementById('theme-toggle');
+const blackModeBtn = document.getElementById('black-mode');
+const lightModeBtn = document.getElementById('light-mode');
 const numberDivs = document.querySelectorAll('.number');
 
-// Check for saved theme
+// Check for saved theme preference
 const currentTheme = localStorage.getItem('theme');
 if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
 }
 
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    
-    // Save theme preference
-    let theme = 'dark';
-    if (document.body.classList.contains('light-mode')) {
-        theme = 'light';
-    }
-    localStorage.setItem('theme', theme);
+// Set black mode (default dark)
+blackModeBtn.addEventListener('click', () => {
+    document.body.classList.remove('light-mode');
+    localStorage.setItem('theme', 'dark');
+});
+
+// Set light mode
+lightModeBtn.addEventListener('click', () => {
+    document.body.classList.add('light-mode');
+    localStorage.setItem('theme', 'light');
 });
 
 generateBtn.addEventListener('click', () => {
