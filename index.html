@@ -18,7 +18,21 @@
         <div class="animal-test-section">
             <h1>Animal Face Test</h1>
             <p>당신은 강아지상일까요, 고양이상일까요?</p>
-            <button type="button" id="start-test-btn" class="submit-btn">테스트 시작하기</button>
+            
+            <div class="upload-container">
+                <div id="upload-area" class="upload-area">
+                    <span>📷 사진을 클릭하거나 여기로 드래그하세요</span>
+                    <input type="file" id="image-upload" accept="image/*" hidden>
+                </div>
+                <div id="image-preview-container" style="display: none;">
+                    <img id="image-preview" src="#" alt="미리보기">
+                </div>
+            </div>
+
+            <div class="test-controls">
+                <button type="button" id="start-test-btn" class="submit-btn">라이브 웹캠 테스트</button>
+            </div>
+            
             <div id="webcam-container"></div>
             <div id="label-container"></div>
         </div>

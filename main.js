@@ -39,18 +39,46 @@ generateBtn.addEventListener('click', () => {
 // Teachable Machine Animal Test Logic
 const URL = "https://teachablemachine.withgoogle.com/models/gWwGmV5A0/";
 let model, webcam, labelContainer, maxPredictions;
+let isModelLoading = false;
 
 const startTestBtn = document.getElementById('start-test-btn');
+const uploadArea = document.getElementById('upload-area');
+const imageUpload = document.getElementById('image-upload');
+const imagePreview = document.getElementById('image-preview');
+const imagePreviewContainer = document.getElementById('image-preview-container');
+const webcamContainer = document.getElementById('webcam-container');
 
+async function ensureModelLoaded() {
+    if (model) return;
+    if (isModelLoading) return;
+    
+    isModelLoading = true;
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+    
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
+    
+    labelContainer = document.getElementById("label-container");
+    if (labelContainer.childNodes.length === 0) {
+        for (let i = 0; i < maxPredictions; i++) {
+            const div = document.createElement("div");
+            div.className = "result-bar";
+            labelContainer.appendChild(div);
+        }
+    }
+    isModelLoading = false;
+}
+
+// Webcam Test Logic
 async function initAnimalTest() {
     startTestBtn.disabled = true;
     startTestBtn.textContent = "모델 로딩 중...";
     
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
-
-    model = await tmImage.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
+    await ensureModelLoaded();
+    
+    // Hide upload UI
+    imagePreviewContainer.style.display = 'none';
 
     const flip = true;
     webcam = new tmImage.Webcam(200, 200, flip);
@@ -58,25 +86,23 @@ async function initAnimalTest() {
     await webcam.play();
     window.requestAnimationFrame(loop);
 
-    document.getElementById("webcam-container").appendChild(webcam.canvas);
-    labelContainer = document.getElementById("label-container");
-    for (let i = 0; i < maxPredictions; i++) {
-        const div = document.createElement("div");
-        div.className = "result-bar";
-        labelContainer.appendChild(div);
-    }
+    webcamContainer.innerHTML = '';
+    webcamContainer.appendChild(webcam.canvas);
     
     startTestBtn.style.display = 'none';
 }
 
 async function loop() {
+    if (!webcam) return;
     webcam.update();
-    await predict();
+    await predict(webcam.canvas);
     window.requestAnimationFrame(loop);
 }
 
-async function predict() {
-    const prediction = await model.predict(webcam.canvas);
+// Prediction Logic (Both Webcam and Image)
+async function predict(imageElement) {
+    if (!model) return;
+    const prediction = await model.predict(imageElement);
     for (let i = 0; i < maxPredictions; i++) {
         const className = prediction[i].className === "Dog" ? "🐶 강아지상" : "🐱 고양이상";
         const probability = (prediction[i].probability * 100).toFixed(0);
@@ -85,6 +111,59 @@ async function predict() {
             <span>${probability}%</span>
         `;
     }
+}
+
+// Image Upload Logic
+uploadArea.addEventListener('click', () => imageUpload.click());
+
+imageUpload.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) handleImageFile(file);
+});
+
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+});
+
+uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+});
+
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) handleImageFile(file);
+});
+
+function handleImageFile(file) {
+    if (!file.type.startsWith('image/')) {
+        alert('이미지 파일만 업로드할 수 있습니다.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        // Stop webcam if running
+        if (webcam) {
+            webcam.stop();
+            webcam = null;
+            webcamContainer.innerHTML = '';
+            startTestBtn.style.display = 'inline-block';
+            startTestBtn.disabled = false;
+            startTestBtn.textContent = "라이브 웹캠 테스트";
+        }
+
+        imagePreview.src = e.target.result;
+        imagePreviewContainer.style.display = 'block';
+        
+        await ensureModelLoaded();
+        
+        // Use a small timeout to ensure image is rendered for prediction
+        setTimeout(() => predict(imagePreview), 100);
+    };
+    reader.readAsDataURL(file);
 }
 
 startTestBtn.addEventListener('click', initAnimalTest);

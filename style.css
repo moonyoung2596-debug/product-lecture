@@ -78,6 +78,48 @@ h1 {
     margin-bottom: 2rem;
 }
 
+.upload-container {
+    margin: 2rem auto;
+    max-width: 400px;
+}
+
+.upload-area {
+    border: 2px dashed var(--number-bg);
+    border-radius: 15px;
+    padding: 2.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.upload-area:hover, .upload-area.dragover {
+    border-color: var(--accent-color);
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
+.upload-area span {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+#image-preview-container {
+    margin-top: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+#image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    object-fit: cover;
+}
+
+.test-controls {
+    margin: 1.5rem 0;
+}
+
 #webcam-container {
     margin: 2rem auto;
     width: 200px;
