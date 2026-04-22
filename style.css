@@ -116,25 +116,6 @@ h1 {
     object-fit: cover;
 }
 
-.test-controls {
-    margin: 1.5rem 0;
-}
-
-#webcam-container {
-    margin: 2rem auto;
-    width: 200px;
-    height: 200px;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    background-color: var(--number-bg);
-}
-
-#webcam-container canvas {
-    width: 100% !important;
-    height: auto !important;
-}
-
 #label-container {
     display: flex;
     flex-direction: column;
