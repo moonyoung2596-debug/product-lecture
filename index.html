@@ -12,47 +12,113 @@
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="theme-controls">
-            <button id="black-mode" class="theme-btn">Black Mode</button>
-            <button id="light-mode" class="theme-btn">Light Mode</button>
-        </div>
-
-        <div class="animal-test-section">
-            <h1>Animal Face Test</h1>
-            <p>당신은 강아지상일까요, 고양이상일까요?</p>
-            
-            <div class="upload-container">
-                <div id="upload-area" class="upload-area">
-                    <span>📷 사진을 클릭하거나 여기로 드래그하세요</span>
-                    <input type="file" id="image-upload" accept="image/*" hidden>
-                </div>
-                <div id="image-preview-container" style="display: none;">
-                    <img id="image-preview" src="#" alt="미리보기">
-                </div>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">AI Fun Tools</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#animal-test">동물상 테스트</a></li>
+                    <li><a href="#lotto-gen">로또 번호 생성</a></li>
+                    <li><a href="#about">사이트 소개</a></li>
+                    <li><a href="#privacy">개인정보처리방침</a></li>
+                </ul>
+            </nav>
+            <div class="theme-controls">
+                <button id="black-mode" class="theme-btn">Dark</button>
+                <button id="light-mode" class="theme-btn">Light</button>
             </div>
-
-            <div id="label-container"></div>
         </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>재미로 보는 인공지능과 행운</h1>
+            <p>최신 AI 기술을 활용한 관상 테스트와 행운의 번호 생성을 한곳에서 즐겨보세요.</p>
+        </section>
 
         <hr class="section-divider">
 
-        <div class="lotto-section">
-            <h1>Lotto Number Generator</h1>
-            <div class="numbers-container">
-                <div class="number"></div>
-                <div class="number"></div>
-                <div class="number"></div>
-                <div class="number"></div>
-                <div class="number"></div>
-                <div class="number"></div>
-            </div>
-            <button id="generate-btn" class="submit-btn">Generate Numbers</button>
-        </div>
+        <!-- Animal Test Section -->
+        <section id="animal-test" class="animal-test-section">
+            <div class="section-content">
+                <h2>AI 동물상 관상 테스트</h2>
+                <p class="description">Google의 Teachable Machine 기술을 활용하여 당신의 얼굴형이 어떤 동물과 닮았는지 분석합니다. 강아지, 고양이, 곰, 공룡 등 다양한 데이터셋을 바탕으로 가장 높은 정확도의 결과를 제공합니다.</p>
+                
+                <div class="upload-container">
+                    <div id="upload-area" class="upload-area">
+                        <span>📷 사진을 클릭하거나 드래그하세요</span>
+                        <input type="file" id="image-upload" accept="image/*" hidden>
+                    </div>
+                    <div id="image-preview-container" style="display: none;">
+                        <img id="image-preview" src="#" alt="미리보기">
+                    </div>
+                </div>
 
-        <div class="contact-section">
+                <div id="label-container"></div>
+                
+                <div class="info-box">
+                    <h4>💡 사용 팁</h4>
+                    <ul>
+                        <li>얼굴이 잘 보이도록 밝은 곳에서 촬영한 사진을 사용하세요.</li>
+                        <li>업로드된 사진은 서버에 저장되지 않으며, 오직 브라우저에서만 분석됩니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Lotto Section -->
+        <section id="lotto-gen" class="lotto-section">
+            <div class="section-content">
+                <h2>행운의 로또 번호 생성기</h2>
+                <p class="description">복잡한 알고리즘을 배제하고 순수한 무작위성을 바탕으로 이번 주 당신의 행운을 점쳐보세요. 1부터 45까지의 숫자 중 중복되지 않는 6개의 숫자를 즉시 생성합니다.</p>
+                
+                <div class="numbers-container">
+                    <div class="number">?</div>
+                    <div class="number">?</div>
+                    <div class="number">?</div>
+                    <div class="number">?</div>
+                    <div class="number">?</div>
+                    <div class="number">?</div>
+                </div>
+                <button id="generate-btn" class="submit-btn">행운의 번호 뽑기</button>
+
+                <div class="info-box">
+                    <h4>⚠️ 안내사항</h4>
+                    <p>생성된 번호는 단순 참고용이며 당첨을 보장하지 않습니다. 건전한 복권 문화를 지향합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <h2>About Us</h2>
+            <p>AI Fun Tools는 사용자들에게 일상의 작은 즐거움을 주기 위해 제작된 무료 웹 서비스입니다. 인공지능 기술의 대중화를 목표로 하며, 누구나 쉽고 재미있게 기술을 경험할 수 있도록 돕습니다.</p>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Privacy Section -->
+        <section id="privacy" class="privacy-section">
+            <h2>개인정보처리방침 (Privacy Policy)</h2>
+            <div class="privacy-content">
+                <p>본 사이트는 사용자의 개인정보를 매우 소중하게 생각합니다.</p>
+                <ul>
+                    <li><strong>데이터 보안:</strong> 업로드된 사진은 AI 분석 즉시 브라우저에서 처리되며, 어떠한 서버로도 전송되거나 저장되지 않습니다.</li>
+                    <li><strong>쿠키 사용:</strong> Google AdSense와 같은 광고 네트워크는 광고 최적화를 위해 쿠키를 사용할 수 있습니다.</li>
+                    <li><strong>광고주 정보:</strong> 타사 공급업체인 Google은 쿠키를 사용하여 사용자의 이전 방문 기록을 바탕으로 광고를 게재합니다.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contact & Comments -->
+        <section class="contact-section">
             <hr>
-            <h3>제휴 문의</h3>
+            <h3>제휴 및 건의 사항</h3>
             <form action="https://formspree.io/f/mvzdbvpk" method="POST" class="contact-form">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="성함/업체명" required>
@@ -63,24 +129,34 @@
                 <div class="form-group">
                     <textarea name="message" placeholder="문의 내용" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">문의하기</button>
+                <button type="submit" class="submit-btn">메시지 보내기</button>
             </form>
-        </div>
+        </section>
 
         <div class="comments-section">
             <hr>
             <div id="disqus_thread"></div>
             <script>
-                (function() { // DON'T EDIT BELOW THIS LINE
+                (function() {
                 var d = document, s = d.createElement('script');
                 s.src = 'https://product1-3.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());
                 (d.head || d.body).appendChild(s);
                 })();
             </script>
-            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         </div>
     </div>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 AI Fun Tools. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#about">About</a>
+            </div>
+        </div>
+    </footer>
+
     <script src="main.js"></script>
 </body>
 </html>

@@ -21,72 +21,77 @@ lightModeBtn.addEventListener('click', () => {
     localStorage.setItem('theme', 'light');
 });
 
-// Lotto Generator Logic
+// Lotto Generator Logic with Animation
 generateBtn.addEventListener('click', () => {
-    const numbers = new Set();
-    while (numbers.size < 6) {
-        const randomNumber = Math.floor(Math.random() * 45) + 1;
-        numbers.add(randomNumber);
-    }
-
-    const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
-
-    numberDivs.forEach((div, index) => {
-        div.textContent = sortedNumbers[index];
-    });
+    generateBtn.disabled = true;
+    generateBtn.textContent = '번호 생성 중...';
+    
+    let iterations = 0;
+    const interval = setInterval(() => {
+        numberDivs.forEach(div => {
+            div.textContent = Math.floor(Math.random() * 45) + 1;
+            div.style.transform = `scale(${1 + Math.random() * 0.2})`;
+        });
+        iterations++;
+        
+        if (iterations > 10) {
+            clearInterval(interval);
+            const numbers = new Set();
+            while (numbers.size < 6) {
+                numbers.add(Math.floor(Math.random() * 45) + 1);
+            }
+            const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+            
+            numberDivs.forEach((div, index) => {
+                div.textContent = sortedNumbers[index];
+                div.style.transform = 'scale(1)';
+                div.style.color = 'var(--accent-color)';
+            });
+            
+            generateBtn.disabled = false;
+            generateBtn.textContent = '행운의 번호 다시 뽑기';
+        }
+    }, 50);
 });
 
-// Teachable Machine Animal Test Logic
-const URL = "https://teachablemachine.withgoogle.com/models/gWwGmV5A0/";
-let model, labelContainer, maxPredictions;
-let isModelLoading = false;
-
-const uploadArea = document.getElementById('upload-area');
-const imageUpload = document.getElementById('image-upload');
-const imagePreview = document.getElementById('image-preview');
-const imagePreviewContainer = document.getElementById('image-preview-container');
-
-async function ensureModelLoaded() {
-    if (model) return;
-    if (isModelLoading) return;
-    
-    isModelLoading = true;
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
-    
-    model = await tmImage.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
-    
-    labelContainer = document.getElementById("label-container");
-    if (labelContainer.childNodes.length === 0) {
-        for (let i = 0; i < maxPredictions; i++) {
-            const div = document.createElement("div");
-            div.className = "result-bar";
-            labelContainer.appendChild(div);
-        }
-    }
-    isModelLoading = false;
-}
-
-// Prediction Logic
+// Refined Prediction Logic
 async function predict(imageElement) {
     if (!model) return;
     const prediction = await model.predict(imageElement);
-    for (let i = 0; i < maxPredictions; i++) {
-        const rawClassName = prediction[i].className.toLowerCase();
-        let className = prediction[i].className;
+    prediction.sort((a, b) => b.probability - a.probability); // 높은 확률 순 정렬
+    
+    labelContainer.innerHTML = ''; // 초기화
+    
+    for (let i = 0; i < Math.min(prediction.length, 5); i++) {
+        const p = prediction[i];
+        const rawClassName = p.className.toLowerCase();
+        let className = p.className;
         
-        if (rawClassName === "dog") {
-            className = "🐶 강아지상";
-        } else if (rawClassName === "cat") {
-            className = "🐱 고양이상";
-        }
+        // 동물상 명칭 한글화 및 이모지 추가
+        const animalMap = {
+            'dog': '🐶 강아지상',
+            'cat': '🐱 고양이상',
+            'rabbit': '🐰 토끼상',
+            'bear': '🐻 곰상',
+            'dinosaur': '🦖 공룡상',
+            'fox': '🦊 여우상'
+        };
+        className = animalMap[rawClassName] || className;
         
-        const probability = (prediction[i].probability * 100).toFixed(0);
-        labelContainer.childNodes[i].innerHTML = `
-            <span>${className}</span>
-            <span>${probability}%</span>
+        const probability = (p.probability * 100).toFixed(0);
+        
+        const resultBar = document.createElement('div');
+        resultBar.className = 'result-bar';
+        resultBar.innerHTML = `
+            <div class="result-label">
+                <span>${className}</span>
+                <span>${probability}%</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: ${probability}%; background-color: ${i === 0 ? 'var(--accent-color)' : 'var(--number-bg)'}"></div>
+            </div>
         `;
+        labelContainer.appendChild(resultBar);
     }
 }
 
