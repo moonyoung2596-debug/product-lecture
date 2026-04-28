@@ -2,6 +2,22 @@ const generateBtn = document.getElementById('generate-btn');
 const blackModeBtn = document.getElementById('black-mode');
 const lightModeBtn = document.getElementById('light-mode');
 const numberDivs = document.querySelectorAll('.number');
+const uploadArea = document.getElementById('upload-area');
+const imageUpload = document.getElementById('image-upload');
+const imagePreviewContainer = document.getElementById('image-preview-container');
+const imagePreview = document.getElementById('image-preview');
+const labelContainer = document.getElementById('label-container');
+
+let model;
+const URL = "https://teachablemachine.withgoogle.com/models/h7v-X3vYp/"; // Example TM model URL
+
+async function ensureModelLoaded() {
+    if (!model) {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+        model = await tmImage.load(modelURL, metadataURL);
+    }
+}
 
 // Check for saved theme preference
 const currentTheme = localStorage.getItem('theme');
