@@ -14,20 +14,26 @@ const URL = "https://teachablemachine.withgoogle.com/models/h7v-X3vYp/";
 async function ensureModelLoaded() {
     if (model) return true;
     try {
-        console.log("Loading AI model...");
+        console.log("AI 모델 로딩 시작...");
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
         
+        // 라이브러리 로드 대기 (최대 4초)
+        let retryCount = 0;
+        while (typeof tmImage === 'undefined' && retryCount < 40) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            retryCount++;
+        }
+
         if (typeof tmImage === 'undefined') {
-            console.error("tmImage library is not loaded.");
-            return false;
+            throw new Error("Teachable Machine 라이브러리가 로드되지 않았습니다.");
         }
         
         model = await tmImage.load(modelURL, metadataURL);
-        console.log("Model loaded successfully.");
+        console.log("모델 로드 성공!");
         return true;
     } catch (error) {
-        console.error("Failed to load model:", error);
+        console.error("모델 로드 중 심각한 오류 발생:", error);
         return false;
     }
 }
@@ -89,24 +95,24 @@ async function predict(imageElement) {
     const labelContainer = document.getElementById('label-container');
     const shareContainer = document.getElementById('share-container');
 
+    resultMessage.innerHTML = '<p>AI가 관상을 분석하고 있습니다...</p>';
+    labelContainer.innerHTML = '';
+
     if (!model) {
-        resultMessage.innerHTML = '<p>AI 모델을 불러오는 중입니다...</p>';
         const isLoaded = await ensureModelLoaded();
         if (!isLoaded) {
-            resultMessage.innerHTML = '<p style="color: #ff4d4d;">모델 로드에 실패했습니다. 페이지를 새로고침하거나 나중에 다시 시도해 주세요.</p>';
+            resultMessage.innerHTML = '<p style="color: #ff4d4d;">AI 분석 준비 중 오류가 발생했습니다. (네트워크나 라이브러리 로드 실패)</p>';
             return;
         }
     }
-
-    resultMessage.innerHTML = '<p>AI가 관상을 분석하고 있습니다...</p>';
-    labelContainer.innerHTML = '';
     
     try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // 이미지 로딩 및 분석 시작 전 여유 시간 (2초)
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         const prediction = await model.predict(imageElement);
         if (!prediction || prediction.length === 0) {
-            resultMessage.innerHTML = '<p>분석 결과가 없습니다.</p>';
+            resultMessage.innerHTML = '<p>분석 결과를 가져올 수 없습니다.</p>';
             return;
         }
 
@@ -157,7 +163,7 @@ async function predict(imageElement) {
         }
     } catch (error) {
         console.error("Prediction error:", error);
-        resultMessage.innerHTML = '<p style="color: #ff4d4d;">분석 중 오류가 발생했습니다.</p>';
+        resultMessage.innerHTML = '<p style="color: #ff4d4d;">분석 중 오류가 발생했습니다. 사진을 다시 확인해 주세요.</p>';
     }
 }
 
@@ -193,6 +199,9 @@ function handleImageFile(file) {
 
     const reader = new FileReader();
     reader.onload = async (e) => {
+        const uploadInstruction = document.getElementById('upload-instruction');
+        if (uploadInstruction) uploadInstruction.style.display = 'none';
+        
         imagePreview.src = e.target.result;
         imagePreviewContainer.style.display = 'block';
         
