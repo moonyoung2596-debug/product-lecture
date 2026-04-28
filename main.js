@@ -72,39 +72,62 @@ generateBtn.addEventListener('click', () => {
 
 // Refined Prediction Logic
 async function predict(imageElement) {
+    const resultMessage = document.getElementById('result-message');
+    const labelContainer = document.getElementById('label-container');
+    const shareContainer = document.getElementById('share-container');
+
     if (!model) {
+        resultMessage.innerHTML = 'AI 모델을 불러오는 중입니다...';
         await ensureModelLoaded();
     }
-    if (!model) return;
+    
+    if (!model) {
+        resultMessage.innerHTML = '모델 로드 실패. 다시 시도해 주세요.';
+        return;
+    }
+
+    resultMessage.innerHTML = 'AI가 관상을 분석하고 있습니다...';
+    labelContainer.innerHTML = '';
+    
+    // 약간의 딜레이를 주어 분석 중인 느낌을 줌
+    await new Promise(resolve => setTimeout(resolve, 800));
 
     const prediction = await model.predict(imageElement);
-    prediction.sort((a, b) => b.probability - a.probability); // 높은 확률 순 정렬
+    prediction.sort((a, b) => b.probability - a.probability);
     
-    labelContainer.innerHTML = ''; // 초기화
+    const topResult = prediction[0];
+    const rawClassName = topResult.className.toLowerCase();
     
+    // 동물상 맵핑
+    const animalMap = {
+        'dog': { name: '강아지상', emoji: '🐶' },
+        'cat': { name: '고양이상', emoji: '🐱' },
+        'rabbit': { name: '토끼상', emoji: '🐰' },
+        'bear': { name: '곰상', emoji: '🐻' },
+        'dinosaur': { name: '공룡상', emoji: '🦖' },
+        'fox': { name: '여우상', emoji: '🦊' }
+    };
+    
+    const resultInfo = animalMap[rawClassName] || { name: topResult.className, emoji: '✨' };
+    
+    // 메인 결과 출력
+    resultMessage.innerHTML = `
+        <span class="result-animal-icon">${resultInfo.emoji}</span>
+        당신은 ${resultInfo.name}입니다!
+    `;
+    
+    // 세부 확률 바 출력
     for (let i = 0; i < Math.min(prediction.length, 5); i++) {
         const p = prediction[i];
-        const rawClassName = p.className.toLowerCase();
-        let className = p.className;
-        
-        // 동물상 명칭 한글화 및 이모지 추가
-        const animalMap = {
-            'dog': '🐶 강아지상',
-            'cat': '🐱 고양이상',
-            'rabbit': '🐰 토끼상',
-            'bear': '🐻 곰상',
-            'dinosaur': '🦖 공룡상',
-            'fox': '🦊 여우상'
-        };
-        className = animalMap[rawClassName] || className;
-        
+        const pRawName = p.className.toLowerCase();
+        const pInfo = animalMap[pRawName] || { name: p.className, emoji: '' };
         const probability = (p.probability * 100).toFixed(0);
         
         const resultBar = document.createElement('div');
         resultBar.className = 'result-bar';
         resultBar.innerHTML = `
             <div class="result-label">
-                <span>${className}</span>
+                <span>${pInfo.emoji} ${pInfo.name}</span>
                 <span>${probability}%</span>
             </div>
             <div class="bar-container">
@@ -114,8 +137,6 @@ async function predict(imageElement) {
         labelContainer.appendChild(resultBar);
     }
 
-    // 분석 완료 후 공유 컨테이너 표시
-    const shareContainer = document.getElementById('share-container');
     if (shareContainer) {
         shareContainer.style.display = 'block';
     }
