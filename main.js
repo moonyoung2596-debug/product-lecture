@@ -72,7 +72,11 @@ generateBtn.addEventListener('click', () => {
 
 // Refined Prediction Logic
 async function predict(imageElement) {
+    if (!model) {
+        await ensureModelLoaded();
+    }
     if (!model) return;
+
     const prediction = await model.predict(imageElement);
     prediction.sort((a, b) => b.probability - a.probability); // 높은 확률 순 정렬
     
@@ -108,6 +112,12 @@ async function predict(imageElement) {
             </div>
         `;
         labelContainer.appendChild(resultBar);
+    }
+
+    // 분석 완료 후 공유 컨테이너 표시
+    const shareContainer = document.getElementById('share-container');
+    if (shareContainer) {
+        shareContainer.style.display = 'block';
     }
 }
 
@@ -146,8 +156,6 @@ function handleImageFile(file) {
         imagePreview.src = e.target.result;
         imagePreviewContainer.style.display = 'block';
         
-        await ensureModelLoaded();
-        
         // Use a small timeout to ensure image is rendered for prediction
         setTimeout(() => predict(imagePreview), 100);
     };
@@ -174,13 +182,3 @@ function copyLink() {
         console.error('링크 복사 실패:', err);
     });
 }
-
-// Add visibility logic to predict function
-const originalPredict = predict;
-predict = async function(imageElement) {
-    await originalPredict(imageElement);
-    const shareContainer = document.getElementById('share-container');
-    if (shareContainer) {
-        shareContainer.style.display = 'block';
-    }
-};
