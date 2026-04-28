@@ -59,38 +59,6 @@
       }
     }
     </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "AI 동물상 테스트는 어떻게 작동하나요?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Google의 Teachable Machine 기술을 활용하여 사용자가 업로드한 사진의 특징을 분석합니다. 강아지, 고양이, 곰, 공룡 등 다양한 동물상 데이터와 대조하여 가장 닮은 타입을 확률로 보여줍니다."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "업로드한 사진은 서버에 저장되나요?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "아니요. 본 서비스는 프라이버시를 최우선으로 합니다. 모든 사진 분석은 사용자의 브라우저 내에서 직접 수행되며, 어떤 이미지도 서버로 전송되거나 저장되지 않습니다."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "로또 번호 생성기는 어떤 방식으로 번호를 추출하나요?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "순수한 무작위성(Randomness) 알고리즘을 사용하여 1부터 45 사이의 중복되지 않는 6개 숫자를 생성합니다. 특정 패턴을 배제하여 매번 새로운 행운의 번호를 제공합니다."
-          }
-        }
-      ]
-    }
-    </script>
 
     <meta name="google-adsense-account" content="ca-pub-3317336298290140">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3317336298290140"
@@ -98,13 +66,6 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4/dist/teachablemachine-image.min.js"></script>
-    <script>
-      window.Userback = window.Userback || {};
-      Userback.access_token = "A-qmxE3uoZ8GWTzqvhJPUIeb98h";
-      (function(d) {
-        var s = d.createElement('script');s.async = true;s.src = 'https://static.userback.io/widget/v1.js';(d.head || d.body).appendChild(s);
-      })(document);
-    </script>
 </head>
 <body>
     <header class="main-header">
@@ -112,8 +73,8 @@
             <div class="logo">AI Fun Tools</div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="#animal-test">동물상 테스트</a></li>
                     <li><a href="#lotto-gen">로또 번호 생성</a></li>
+                    <li><a href="#animal-test">동물상 테스트</a></li>
                     <li><a href="#about">사이트 소개</a></li>
                     <li><a href="#privacy">개인정보처리방침</a></li>
                 </ul>
@@ -134,55 +95,11 @@
 
         <hr class="section-divider">
 
-        <!-- Animal Test Section -->
-        <section id="animal-test" class="animal-test-section">
-            <div class="section-content">
-                <h2>AI 동물상 관상 테스트</h2>
-                <p class="description">사진을 업로드하여 당신과 닮은 동물상을 분석해보세요. 모든 사진은 서버에 저장되지 않고 안전하게 브라우저 내에서만 처리됩니다.</p>
-                
-                <div class="upload-container">
-                    <div id="upload-area" class="upload-area">
-                        <div id="upload-instruction">
-                            <span style="font-size: 3rem;">📸</span>
-                            <p>사진을 드래그하거나 클릭하여 업로드하세요</p>
-                        </div>
-                        <div id="image-preview-container" style="display: none;">
-                            <img id="image-preview" src="#" alt="사용자 사진 미리보기">
-                        </div>
-                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
-                    </div>
-                </div>
-
-                <div id="result-message" class="result-message"></div>
-                <div id="label-container"></div>
-                
-                <div id="share-container" class="share-container" style="display: none;">
-                    <h3>결과 공유하기</h3>
-                    <div class="share-buttons">
-                        <button class="share-btn twitter" onclick="shareTwitter()">𝕏 트위터</button>
-                        <button class="share-btn facebook" onclick="shareFacebook()">페이스북</button>
-                        <button class="share-btn link" onclick="copyLink()">링크 복사</button>
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <h4>💡 사용 팁</h4>
-                    <ul>
-                        <li>정면 사진을 사용하면 더 정확한 결과를 얻을 수 있습니다.</li>
-                        <li>얼굴이 잘 보이도록 밝은 곳에서 찍은 사진을 선택해 주세요.</li>
-                        <li>모든 분석은 실시간으로 브라우저 내에서 이루어지며 저장되지 않습니다.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider">
-
         <!-- Lotto Section -->
         <section id="lotto-gen" class="lotto-section">
             <div class="section-content">
                 <h2>행운의 로또 번호 생성기</h2>
-                <p class="description">복잡한 알고리즘을 배제하고 순수한 무작위성을 바탕으로 이번 주 당신의 행운을 점쳐보세요. 1부터 45까지의 숫자 중 중복되지 않는 6개의 숫자를 즉시 생성합니다.</p>
+                <p class="description">복잡한 알고리즘을 배제하고 순수한 무작위성을 바탕으로 이번 주 당신의 행운을 점쳐보세요.</p>
                 
                 <div class="numbers-container">
                     <div class="number">?</div>
@@ -193,10 +110,43 @@
                     <div class="number">?</div>
                 </div>
                 <button id="generate-btn" class="submit-btn">행운의 번호 뽑기</button>
+            </div>
+        </section>
 
-                <div class="info-box">
-                    <h4>⚠️ 안내사항</h4>
-                    <p>생성된 번호는 단순 참고용이며 당첨을 보장하지 않습니다. 건전한 복권 문화를 지향합니다.</p>
+        <hr class="section-divider">
+
+        <!-- Animal Test Section -->
+        <section id="animal-test" class="animal-test-section">
+            <div class="section-content">
+                <h2>AI 동물상 관상 테스트</h2>
+                <p class="description">사진을 업로드하여 당신과 닮은 동물상을 분석해보세요. 사진은 저장되지 않습니다.</p>
+                
+                <div class="upload-container">
+                    <div id="upload-area" class="upload-area">
+                        <div id="upload-instruction">
+                            <span style="font-size: 3rem;">📸</span>
+                            <p>클릭하여 이미지를 선택하거나 파일을 여기로 드래그하세요</p>
+                        </div>
+                        <div id="image-preview-container" style="display: none;">
+                            <img id="image-preview" src="#" alt="사용자 사진 미리보기" style="max-width: 100%; border-radius: 10px;">
+                        </div>
+                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <div id="loading-spinner" style="display: none; margin: 20px 0;">
+                    <p>AI가 분석 중입니다...</p>
+                </div>
+
+                <div id="result-message" class="result-message" style="margin-top: 20px; font-weight: bold; font-size: 1.5rem;"></div>
+                <div id="label-container" style="margin-top: 20px; text-align: left; display: inline-block; min-width: 250px;"></div>
+
+                <div class="info-box" style="margin-top: 30px;">
+                    <h4>💡 사용 팁</h4>
+                    <ul>
+                        <li>정면 사진을 사용하면 더 정확한 결과를 얻을 수 있습니다.</li>
+                        <li>얼굴이 잘 보이도록 밝은 곳에서 찍은 사진을 선택해 주세요.</li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -206,87 +156,24 @@
         <!-- About Section -->
         <section id="about" class="about-section">
             <h2>About Us</h2>
-            <p>AI Fun Tools는 사용자들에게 일상의 작은 즐거움을 주기 위해 제작된 무료 웹 서비스입니다. 인공지능 기술의 대중화를 목표로 하며, 누구나 쉽고 재미있게 기술을 경험할 수 있도록 돕습니다.</p>
-        </section>
-
-        <hr class="section-divider">
-
-        <!-- FAQ Section -->
-        <section id="faq" class="faq-section">
-            <h2>자주 묻는 질문 (FAQ)</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <h3>AI 동물상 테스트는 어떻게 작동하나요?</h3>
-                    <p>Google의 Teachable Machine 기술을 활용하여 사용자가 업로드한 사진의 특징을 분석합니다. 강아지, 고양이, 곰, 공룡 등 다양한 동물상 데이터와 대조하여 가장 닮은 타입을 확률로 보여줍니다.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>업로드한 사진은 서버에 저장되나요?</h3>
-                    <p>아니요. 본 서비스는 프라이버시를 최우선으로 합니다. 모든 사진 분석은 사용자의 브라우저 내에서 직접 수행되며, 어떤 이미지도 서버로 전송되거나 저장되지 않습니다.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>로또 번호 생성기는 어떤 방식으로 번호를 추출하나요?</h3>
-                    <p>순수한 무작위성(Randomness) 알고리즘을 사용하여 1부터 45 사이의 중복되지 않는 6개 숫자를 생성합니다. 특정 패턴을 배제하여 매번 새로운 행운의 번호를 제공합니다.</p>
-                </div>
-            </div>
+            <p>AI Fun Tools는 사용자들에게 일상의 작은 즐거움을 주기 위해 제작된 무료 웹 서비스입니다.</p>
         </section>
 
         <hr class="section-divider">
 
         <!-- Privacy Section -->
         <section id="privacy" class="privacy-section">
-            <h2>개인정보처리방침 (Privacy Policy)</h2>
-            <div class="privacy-content">
-                <p>본 사이트는 사용자의 개인정보를 매우 소중하게 생각합니다.</p>
-                <ul>
-                    <li><strong>데이터 보안:</strong> 업로드된 사진은 AI 분석 즉시 브라우저에서 처리되며, 어떠한 서버로도 전송되거나 저장되지 않습니다.</li>
-                    <li><strong>쿠키 사용:</strong> Google AdSense와 같은 광고 네트워크는 광고 최적화를 위해 쿠키를 사용할 수 있습니다.</li>
-                    <li><strong>광고주 정보:</strong> 타사 공급업체인 Google은 쿠키를 사용하여 사용자의 이전 방문 기록을 바탕으로 광고를 게재합니다.</li>
-                </ul>
-            </div>
+            <h2>개인정보처리방침</h2>
+            <p>업로드된 사진은 AI 분석 즉시 브라우저에서 처리되며, 서버로 전송되거나 저장되지 않습니다.</p>
         </section>
-
-        <!-- Contact & Comments -->
-        <section class="contact-section">
-            <hr>
-            <h3>제휴 및 건의 사항</h3>
-            <form action="https://formspree.io/f/mvzdbvpk" method="POST" class="contact-form">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="성함/업체명" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="이메일 주소" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" placeholder="문의 내용" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">메시지 보내기</button>
-            </form>
-        </section>
-
-        <div class="comments-section">
-            <hr>
-            <div id="disqus_thread"></div>
-            <script>
-                (function() {
-                var d = document, s = d.createElement('script');
-                s.src = 'https://product1-3.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-                })();
-            </script>
-        </div>
     </div>
 
     <footer class="main-footer">
         <div class="footer-container">
             <p>&copy; 2024 AI Fun Tools. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#about">About</a>
-            </div>
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script src="main.js?v=1.1"></script>
 </body>
 </html>
