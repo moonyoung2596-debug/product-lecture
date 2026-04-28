@@ -9,13 +9,26 @@ const imagePreview = document.getElementById('image-preview');
 const labelContainer = document.getElementById('label-container');
 
 let model;
-const URL = "https://teachablemachine.withgoogle.com/models/h7v-X3vYp/"; // Example TM model URL
+const URL = "https://teachablemachine.withgoogle.com/models/h7v-X3vYp/"; 
 
 async function ensureModelLoaded() {
-    if (!model) {
+    if (model) return true;
+    try {
+        console.log("Loading AI model...");
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
+        
+        if (typeof tmImage === 'undefined') {
+            console.error("tmImage library is not loaded.");
+            return false;
+        }
+        
         model = await tmImage.load(modelURL, metadataURL);
+        console.log("Model loaded successfully.");
+        return true;
+    } catch (error) {
+        console.error("Failed to load model:", error);
+        return false;
     }
 }
 
@@ -37,7 +50,7 @@ lightModeBtn.addEventListener('click', () => {
     localStorage.setItem('theme', 'light');
 });
 
-// Lotto Generator Logic with Animation
+// Lotto Generator Logic
 generateBtn.addEventListener('click', () => {
     generateBtn.disabled = true;
     generateBtn.textContent = '번호 생성 중...';
@@ -77,68 +90,74 @@ async function predict(imageElement) {
     const shareContainer = document.getElementById('share-container');
 
     if (!model) {
-        resultMessage.innerHTML = 'AI 모델을 불러오는 중입니다...';
-        await ensureModelLoaded();
-    }
-    
-    if (!model) {
-        resultMessage.innerHTML = '모델 로드 실패. 다시 시도해 주세요.';
-        return;
+        resultMessage.innerHTML = '<p>AI 모델을 불러오는 중입니다...</p>';
+        const isLoaded = await ensureModelLoaded();
+        if (!isLoaded) {
+            resultMessage.innerHTML = '<p style="color: #ff4d4d;">모델 로드에 실패했습니다. 페이지를 새로고침하거나 나중에 다시 시도해 주세요.</p>';
+            return;
+        }
     }
 
-    resultMessage.innerHTML = 'AI가 관상을 분석하고 있습니다...';
+    resultMessage.innerHTML = '<p>AI가 관상을 분석하고 있습니다...</p>';
     labelContainer.innerHTML = '';
     
-    // 약간의 딜레이를 주어 분석 중인 느낌을 줌
-    await new Promise(resolve => setTimeout(resolve, 800));
+    try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const prediction = await model.predict(imageElement);
-    prediction.sort((a, b) => b.probability - a.probability);
-    
-    const topResult = prediction[0];
-    const rawClassName = topResult.className.toLowerCase();
-    
-    // 동물상 맵핑
-    const animalMap = {
-        'dog': { name: '강아지상', emoji: '🐶' },
-        'cat': { name: '고양이상', emoji: '🐱' },
-        'rabbit': { name: '토끼상', emoji: '🐰' },
-        'bear': { name: '곰상', emoji: '🐻' },
-        'dinosaur': { name: '공룡상', emoji: '🦖' },
-        'fox': { name: '여우상', emoji: '🦊' }
-    };
-    
-    const resultInfo = animalMap[rawClassName] || { name: topResult.className, emoji: '✨' };
-    
-    // 메인 결과 출력
-    resultMessage.innerHTML = `
-        <span class="result-animal-icon">${resultInfo.emoji}</span>
-        당신은 ${resultInfo.name}입니다!
-    `;
-    
-    // 세부 확률 바 출력
-    for (let i = 0; i < Math.min(prediction.length, 5); i++) {
-        const p = prediction[i];
-        const pRawName = p.className.toLowerCase();
-        const pInfo = animalMap[pRawName] || { name: p.className, emoji: '' };
-        const probability = (p.probability * 100).toFixed(0);
+        const prediction = await model.predict(imageElement);
+        if (!prediction || prediction.length === 0) {
+            resultMessage.innerHTML = '<p>분석 결과가 없습니다.</p>';
+            return;
+        }
+
+        prediction.sort((a, b) => b.probability - a.probability);
         
-        const resultBar = document.createElement('div');
-        resultBar.className = 'result-bar';
-        resultBar.innerHTML = `
-            <div class="result-label">
-                <span>${pInfo.emoji} ${pInfo.name}</span>
-                <span>${probability}%</span>
-            </div>
-            <div class="bar-container">
-                <div class="bar-fill" style="width: ${probability}%; background-color: ${i === 0 ? 'var(--accent-color)' : 'var(--number-bg)'}"></div>
-            </div>
+        const topResult = prediction[0];
+        const rawClassName = topResult.className.toLowerCase();
+        
+        const animalMap = {
+            'dog': { name: '강아지상', emoji: '🐶' },
+            'cat': { name: '고양이상', emoji: '🐱' },
+            'rabbit': { name: '토끼상', emoji: '🐰' },
+            'bear': { name: '곰상', emoji: '🐻' },
+            'dinosaur': { name: '공룡상', emoji: '🦖' },
+            'fox': { name: '여우상', emoji: '🦊' }
+        };
+        
+        const resultInfo = animalMap[rawClassName] || { name: topResult.className, emoji: '✨' };
+        
+        resultMessage.innerHTML = `
+            <span class="result-animal-icon">${resultInfo.emoji}</span>
+            <div style="font-size: 1.5rem; margin-top: 10px;">당신은 ${resultInfo.name}입니다!</div>
         `;
-        labelContainer.appendChild(resultBar);
-    }
+        
+        labelContainer.innerHTML = '';
+        for (let i = 0; i < Math.min(prediction.length, 5); i++) {
+            const p = prediction[i];
+            const pRawName = p.className.toLowerCase();
+            const pInfo = animalMap[pRawName] || { name: p.className, emoji: '' };
+            const probability = (p.probability * 100).toFixed(0);
+            
+            const resultBar = document.createElement('div');
+            resultBar.className = 'result-bar';
+            resultBar.innerHTML = `
+                <div class="result-label">
+                    <span>${pInfo.emoji} ${pInfo.name}</span>
+                    <span>${probability}%</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: ${probability}%; background-color: ${i === 0 ? 'var(--accent-color)' : 'var(--number-bg)'}"></div>
+                </div>
+            `;
+            labelContainer.appendChild(resultBar);
+        }
 
-    if (shareContainer) {
-        shareContainer.style.display = 'block';
+        if (shareContainer) {
+            shareContainer.style.display = 'block';
+        }
+    } catch (error) {
+        console.error("Prediction error:", error);
+        resultMessage.innerHTML = '<p style="color: #ff4d4d;">분석 중 오류가 발생했습니다.</p>';
     }
 }
 
@@ -177,8 +196,10 @@ function handleImageFile(file) {
         imagePreview.src = e.target.result;
         imagePreviewContainer.style.display = 'block';
         
-        // Use a small timeout to ensure image is rendered for prediction
-        setTimeout(() => predict(imagePreview), 100);
+        // Ensure the image is loaded before predicting
+        imagePreview.onload = () => {
+            setTimeout(() => predict(imagePreview), 100);
+        };
     };
     reader.readAsDataURL(file);
 }
@@ -198,8 +219,6 @@ function shareFacebook() {
 function copyLink() {
     const url = window.location.origin + window.location.pathname;
     navigator.clipboard.writeText(url).then(() => {
-        alert("링크가 클립보드에 복사되었습니다! 친구들에게 공유해보세요. ✨");
-    }).catch(err => {
-        console.error('링크 복사 실패:', err);
+        alert("링크가 복사되었습니다!");
     });
 }
