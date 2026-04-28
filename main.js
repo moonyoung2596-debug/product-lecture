@@ -153,3 +153,34 @@ function handleImageFile(file) {
     };
     reader.readAsDataURL(file);
 }
+
+// SNS Sharing Logic
+function shareTwitter() {
+    const text = "AI가 분석한 내 동물상은? 지금 바로 테스트해보세요! #AI동물상테스트 #관상 #AI관상";
+    const url = window.location.origin + window.location.pathname;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+}
+
+function shareFacebook() {
+    const url = window.location.origin + window.location.pathname;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
+}
+
+function copyLink() {
+    const url = window.location.origin + window.location.pathname;
+    navigator.clipboard.writeText(url).then(() => {
+        alert("링크가 클립보드에 복사되었습니다! 친구들에게 공유해보세요. ✨");
+    }).catch(err => {
+        console.error('링크 복사 실패:', err);
+    });
+}
+
+// Add visibility logic to predict function
+const originalPredict = predict;
+predict = async function(imageElement) {
+    await originalPredict(imageElement);
+    const shareContainer = document.getElementById('share-container');
+    if (shareContainer) {
+        shareContainer.style.display = 'block';
+    }
+};
