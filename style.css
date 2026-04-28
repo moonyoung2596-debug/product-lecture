@@ -261,6 +261,31 @@ h2 {
     font-size: 0.8rem;
 }
 
+/* FAQ Section */
+.faq-section {
+    margin: 4rem 0;
+}
+
+.faq-item {
+    margin-bottom: 1.5rem;
+    background-color: var(--info-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.faq-item h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+.faq-item p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
 @media (max-width: 600px) {
     .header-container {
         flex-direction: column;
