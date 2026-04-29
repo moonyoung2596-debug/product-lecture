@@ -113,6 +113,14 @@ h2 {
     opacity: 0.8;
 }
 
+.section-divider {
+    border: 0;
+    height: 1px;
+    background: var(--number-bg);
+    margin: 4rem 0;
+    opacity: 0.3;
+}
+
 .info-box {
     background-color: var(--info-bg);
     padding: 1.5rem;
@@ -151,6 +159,45 @@ h2 {
     max-width: 100%;
     border-radius: 12px;
     margin-top: 1rem;
+}
+
+/* Animal Test Result Styles */
+#label-container {
+    margin: 2rem auto;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    text-align: left;
+}
+
+.result-bar-wrapper {
+    width: 100%;
+}
+
+.bar-container {
+    background: rgba(var(--number-bg-rgb, 45, 45, 45), 0.2);
+    background-color: var(--number-bg);
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.bar-fill {
+    background: var(--accent-color);
+    height: 100%;
+    width: 0%; /* Initial state for animation */
+    transition: width 1.5s cubic-bezier(0.1, 0.5, 0.1, 1);
+}
+
+.result-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
 /* Lotto Styles */
@@ -194,40 +241,6 @@ h2 {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Result Bar Styles */
-#label-container {
-    margin: 2rem auto;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-}
-
-.result-bar {
-    text-align: left;
-}
-
-.result-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.bar-container {
-    height: 10px;
-    background-color: var(--number-bg);
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    border-radius: 5px;
-    transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
 /* Footer & Other Improvements */
 .main-footer {
     background-color: var(--footer-bg);
@@ -235,20 +248,6 @@ h2 {
     margin-top: 5rem;
     text-align: center;
     border-top: 1px solid var(--number-bg);
-}
-
-.footer-links {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-}
-
-.footer-links a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-size: 0.85rem;
-    opacity: 0.7;
 }
 
 .theme-btn {
@@ -259,92 +258,6 @@ h2 {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.8rem;
-}
-
-/* FAQ Section */
-.faq-section {
-    margin: 4rem 0;
-}
-
-.faq-item {
-    margin-bottom: 1.5rem;
-    background-color: var(--info-bg);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border-left: 4px solid var(--accent-color);
-}
-
-.faq-item h3 {
-    margin-top: 0;
-    font-size: 1.2rem;
-    color: var(--accent-color);
-}
-
-.faq-item p {
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    opacity: 0.9;
-}
-
-/* Result Message */
-.result-message {
-    font-size: 1.8rem;
-    font-weight: 800;
-    text-align: center;
-    margin: 2rem 0 1rem;
-    color: var(--accent-color);
-}
-
-.result-animal-icon {
-    font-size: 4rem;
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-/* SNS Share Buttons */
-.share-container {
-    margin: 2.5rem 0;
-    text-align: center;
-    padding: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.03);
-    border-radius: 15px;
-    animation: fadeIn 0.5s ease-out;
-}
-
-.share-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 1.2rem;
-}
-
-.share-btn {
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.share-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.share-btn.twitter { background-color: #000000; }
-.share-btn.facebook { background-color: #1877F2; }
-.share-btn.link { background-color: #6c757d; }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {
